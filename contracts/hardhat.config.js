@@ -12,7 +12,7 @@ task("mint", "Mint a token")
       throw new Error("Unknown account " + args.account);
     }
     const signer = await ethers.getSigner(address);
-    const contract = await ethers.getContract("POWRemembranceToken", signer);
+    const contract = await ethers.getContract("PoWRemembranceToken", signer);
 
     const tx = await contract.mint(address, [
       args.mixhash,

@@ -41,7 +41,7 @@ export default {
 </script>
 
 <template>
-  <h1>POW Remembrance tokens</h1>
+  <h1>PoW Remembrance tokens</h1>
 
   <div>
     <table>

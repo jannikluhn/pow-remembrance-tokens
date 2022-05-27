@@ -5,24 +5,24 @@ import {ERC721Enumerable} from "@openzeppelin/contracts/token/ERC721/extensions/
 import {ERC721, ERC721URIStorage} from "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 
-contract POWRemembranceToken is ERC721Enumerable, ERC721URIStorage, Ownable {
-    struct POW {
+contract PoWRemembranceToken is ERC721Enumerable, ERC721URIStorage, Ownable {
+    struct PoW {
         bytes32 mixHash;
         uint64 nonce;
     }
 
-    mapping(uint256 => POW) public pows;
+    mapping(uint256 => PoW) public pows;
 
-    constructor() ERC721("POWRemembranceToken", "POW") {}
+    constructor() ERC721("PoWRemembranceToken", "POW") {}
 
-    function mint(address coinbase, POW memory pow) external returns (uint256) {
+    function mint(address coinbase, PoW memory pow) external returns (uint256) {
         uint256 tokenID = _tokenID(coinbase, pow);
         pows[tokenID] = pow;
         _safeMint(coinbase, tokenID);
         return tokenID;
     }
 
-    function _tokenID(address coinbase, POW memory pow)
+    function _tokenID(address coinbase, PoW memory pow)
         internal
         pure
         returns (uint256)
