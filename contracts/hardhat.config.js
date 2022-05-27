@@ -1,20 +1,25 @@
 require("@nomiclabs/hardhat-ethers");
+require("hardhat-deploy");
 
 /**
  * @type import('hardhat/config').HardhatUserConfig
  */
 module.exports = {
-    solidity: {
-        version: "0.8.14",
-        settings: {
-            optimizer: {
-                enabled: true,
-                runs: 200
-            }
-        }
+  solidity: {
+    version: "0.8.14",
+    settings: {
+      optimizer: {
+        enabled: true,
+        runs: 200,
+      },
     },
+  },
 
-    paths: {
-        sources: "./src",
-    }
+  paths: {
+    sources: "./src",
+  },
+
+  namedAccounts: {
+    deployer: 0,
+  },
 };
