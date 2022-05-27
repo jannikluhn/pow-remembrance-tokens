@@ -1,36 +1,60 @@
-<script setup>
-import { ref } from "vue";
+<script>
+import { contract } from "../contract.js";
 
-defineProps({
-  msg: String,
-});
+export default {
+  name: "HelloWorld",
 
-const count = ref(0);
+  data() {
+    return {
+      tokens: [],
+    };
+  },
+
+  created() {
+    this.fetchTokens();
+  },
+
+  methods: {
+    async fetchTokens() {
+      const numTokens = await contract.totalSupply();
+      const numKnownTokens = this.tokens.length;
+      for (let i = numKnownTokens; i < numTokens; i++) {
+        const tokenID = await contract.tokenByIndex(i);
+        const [owner, pow] = await Promise.all([
+          contract.ownerOf(tokenID),
+          contract.pows(tokenID),
+        ]);
+        this.tokens[i] = {
+          index: i,
+          id: tokenID,
+          owner: owner,
+          pow: pow,
+        };
+      }
+    },
+
+    shorten(s) {
+      return s.slice(0, 4) + "..." + s.slice(-4);
+    },
+  },
+};
 </script>
 
 <template>
-  <h1>{{ msg }}</h1>
+  <h1>POW Remembrance tokens</h1>
 
-  <p>
-    Recommended IDE setup:
-    <a href="https://code.visualstudio.com/" target="_blank">VS Code</a>
-    +
-    <a href="https://github.com/johnsoncodehk/volar" target="_blank">Volar</a>
-  </p>
-
-  <p>
-    <a href="https://vitejs.dev/guide/features.html" target="_blank">
-      Vite Documentation
-    </a>
-    |
-    <a href="https://v3.vuejs.org/" target="_blank">Vue 3 Documentation</a>
-  </p>
-
-  <button type="button" @click="count++">count is: {{ count }}</button>
-  <p>
-    Edit
-    <code>components/HelloWorld.vue</code> to test hot module replacement.
-  </p>
+  <div>
+    <table>
+      <tr>
+        <th>Token ID</th>
+        <th>Owner</th>
+      </tr>
+      <tr v-for="token in tokens" :key="token.id">
+        <td>{{ shorten(token.id.toString()) }}</td>
+        <td>{{ token.owner }}</td>
+      </tr>
+    </table>
+  </div>
 </template>
 
 <style scoped>
