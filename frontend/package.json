@@ -8,7 +8,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ethereumjs/block": "^3.6.2",
+    "@ethereumjs/common": "^2.6.4",
+    "@ethereumjs/ethash": "^1.1.0",
+    "ethereumjs-util": "^7.1.4",
     "ethers": "^5.6.8",
+    "level-mem": "^6.0.1",
     "vue": "^3.2.25"
   },
   "devDependencies": {
