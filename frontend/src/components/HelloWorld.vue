@@ -20,15 +20,18 @@ export default {
       const numKnownTokens = this.tokens.length;
       for (let i = numKnownTokens; i < numTokens; i++) {
         const tokenID = await contract.tokenByIndex(i);
-        const [owner, pow] = await Promise.all([
+        const [owner, pow, validated] = await Promise.all([
           contract.ownerOf(tokenID),
           contract.pows(tokenID),
+          contract.validated(tokenID),
         ]);
         this.tokens[i] = {
           index: i,
           id: tokenID,
           owner: owner,
           pow: pow,
+          validated: validated
+
         };
       }
     },
@@ -41,6 +44,7 @@ export default {
 </script>
 
 <template>
+<div>
   <h1>PoW Remembrance tokens</h1>
 
   <div>
@@ -48,12 +52,15 @@ export default {
       <tr>
         <th>Token ID</th>
         <th>Owner</th>
+        <th>Validated</th>
       </tr>
       <tr v-for="token in tokens" :key="token.id">
         <td>{{ shorten(token.id.toString()) }}</td>
         <td>{{ token.owner }}</td>
+        <td>{{ token.validated }}</td>
       </tr>
     </table>
+  </div>
   </div>
 </template>
 
