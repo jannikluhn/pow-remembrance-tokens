@@ -26,6 +26,20 @@ task("mint", "Mint a token")
     );
   });
 
+task("mintSome", "Mint some tokens for testing").setAction(async (args) => {
+  const { deployer } = await hre.getNamedAccounts();
+  const signer = await ethers.getSigner(deployer);
+  const contract = await ethers.getContract("PoWRemembranceToken", signer);
+  const mixHash =
+    "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+  let txPromises = [];
+  for (let i = 0; i < 5; i++) {
+    tx = await contract.mint(deployer, [mixHash, i]);
+    txPromises.push(tx.wait());
+  }
+  await Promise.all(txPromises);
+});
+
 /**
  * @type import('hardhat/config').HardhatUserConfig
  */
