@@ -12,6 +12,7 @@ contract PoWRemembranceToken is ERC721Enumerable, ERC721URIStorage, Ownable {
     }
 
     mapping(uint256 => PoW) public pows;
+    mapping(uint256 => bool) public validated;
 
     constructor() ERC721("PoWRemembranceToken", "POW") {}
 
@@ -20,6 +21,10 @@ contract PoWRemembranceToken is ERC721Enumerable, ERC721URIStorage, Ownable {
         pows[tokenID] = pow;
         _safeMint(coinbase, tokenID);
         return tokenID;
+    }
+
+    function validate(uint256 tokenID) external onlyOwner {
+        validated[tokenID] = true;
     }
 
     function _tokenID(address coinbase, PoW memory pow)
