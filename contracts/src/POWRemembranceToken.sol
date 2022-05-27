@@ -6,7 +6,6 @@ import {ERC721, ERC721URIStorage} from "@openzeppelin/contracts/token/ERC721/ext
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 
 contract POWRemembranceToken is ERC721Enumerable, ERC721URIStorage, Ownable {
-
     struct POW {
         bytes32 mixHash;
         uint64 nonce;
@@ -23,18 +22,29 @@ contract POWRemembranceToken is ERC721Enumerable, ERC721URIStorage, Ownable {
         return tokenID;
     }
 
-    function _tokenID(address coinbase, POW memory pow) internal pure returns (uint256) {
-        return uint256(keccak256(abi.encodePacked(coinbase, pow.mixHash, pow.nonce)));
+    function _tokenID(address coinbase, POW memory pow)
+        internal
+        pure
+        returns (uint256)
+    {
+        return
+            uint256(
+                keccak256(abi.encodePacked(coinbase, pow.mixHash, pow.nonce))
+            );
     }
 
-    function _beforeTokenTransfer(address from, address to, uint256 tokenId)
-        internal
-        override(ERC721, ERC721Enumerable)
-    {
+    function _beforeTokenTransfer(
+        address from,
+        address to,
+        uint256 tokenId
+    ) internal override(ERC721, ERC721Enumerable) {
         super._beforeTokenTransfer(from, to, tokenId);
     }
 
-    function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) {
+    function _burn(uint256 tokenId)
+        internal
+        override(ERC721, ERC721URIStorage)
+    {
         super._burn(tokenId);
     }
 
@@ -56,4 +66,3 @@ contract POWRemembranceToken is ERC721Enumerable, ERC721URIStorage, Ownable {
         return super.supportsInterface(interfaceId);
     }
 }
-
