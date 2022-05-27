@@ -61,7 +61,7 @@ task("validate", "").setAction(async (args) => {
       contract.validated(tokenID),
     ]);
     if (validated) {
-      console.log("token", tokenID, "already validated");
+      console.log("token", tokenID.toString(), "already validated");
     } else {
       console.log("validating token", tokenID.toString(), "...");
       if (await validatePoW(owner, pow)) {
@@ -70,7 +70,7 @@ task("validate", "").setAction(async (args) => {
         await tx.wait();
         console.log("done");
       } else {
-        console.log("token", tokenID, "is invalid");
+        console.log("token is invalid");
       }
     }
   }
@@ -79,14 +79,6 @@ task("validate", "").setAction(async (args) => {
 async function validatePoW(coinbase, pow) {
   const e = new Ethash(cacheDB);
   // TODO: parent should be last PoW block
-
-  console.log({
-    difficulty: new BN(100),
-    number: new BN(1),
-    coinbase: coinbase,
-    nonce: ethers.utils.zeroPad(pow.nonce.toHexString(), 8),
-    mixHash: pow.mixHash,
-  });
   const block = Block.fromBlockData({
     header: {
       difficulty: new BN(100),
@@ -118,6 +110,7 @@ module.exports = {
 
   namedAccounts: {
     deployer: 0,
-    miner: 1,
+    miner1: 1,
+    miner2: 2,
   },
 };
