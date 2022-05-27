@@ -1,0 +1,9 @@
+// valid
+npx hardhat mint --account miner1 --mixhash 0x883515ddef1617d7738d5139f1dbca7278c7c9320b70a80d81dfa74bc755ae8d --nonce 0x00000000000000e1 --network localhost
+npx hardhat mint --account miner2 --mixhash 0x3093b41165ad768e4fe6d32142888021ceef035a30068a72dcab0523e2fd714c --nonce 0x0000000000000074 --network localhost
+
+// invalid
+npx hardhat mint --account miner1 --mixhash 0x3093b41165ad768e4fe6d32142888021ceef035a30068a72dcab0523e2fd714c --nonce 0x0000000000000073 --network localhost
+
+// validation
+npx hardhat validate --network localhost
